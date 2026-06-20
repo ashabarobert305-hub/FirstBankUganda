@@ -1,13 +1,5 @@
-# FirstBankUganda# First Bank Uganda – Account Opening System
-
-# First Bank Uganda – Account Opening System
-
-**Module:** Object Oriented Programming (1201ST / 1204FST / 1301ST)  
-**Examiner:** Dr. David Kakeeto | **Moderator:** Mr. Bazigu Alex  
-**University:** Victoria University, Kampala, Uganda  
-**Due:** 24th June 2026
-
----
+# FirstBankUganda.
+First Bank Uganda – Account Opening System
 
 ## Project Structure
 
