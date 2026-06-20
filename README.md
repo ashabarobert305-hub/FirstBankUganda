@@ -284,29 +284,7 @@ CREATE TABLE accounts (
 | Opening Deposit | Must meet minimum for selected account type |
 | Second NIN | Required only for Joint account |
 
-## Account Number Format.
 
-`BRANCHCODE-YYYY-xxxxxx`
-
-| Branch | Code |
-|--------|------|
-| Kampala | KLA |
-| Gulu    | GUL |
-| Mbarara | MBR |
-| Jinja   | JNJ |
-| Mbale   | MBL |
-
-Example: `KLA-2026-000001`
-
-## Minimum Opening Deposits.
-
-| Account Type | Minimum (UGX) |
-|-------------|--------------|
-| Savings | 50,000 |
-| Current | 200,000 |
-| Fixed Deposit | 1,000,000 |
-| Student | 10,000 |
-| Joint | 100,000 |
 
 
 📄 License
