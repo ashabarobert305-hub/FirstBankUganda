@@ -129,8 +129,6 @@ CREATE TABLE accounts (
    ```
 4. Create an empty `FirstBankUganda.accdb` file using MS Access first.
 
----
-
 ## OOP Design Summary
 
 | Element | Implementation |
@@ -140,8 +138,6 @@ CREATE TABLE accounts (
 | Polymorphism | `AccountFactory.create()` returns the correct subtype; `account.minimumDeposit()` is called on the superclass reference |
 | Encapsulation | All fields private; public getters only; setters where needed |
 | Validation | Centralised in `Validator` utility class |
-
----
 
 ## Validation Rules Summary
 
@@ -158,7 +154,6 @@ CREATE TABLE accounts (
 | Opening Deposit | Must meet minimum for selected account type |
 | Second NIN | Required only for Joint account |
 
----
 
 ## Account Number Format
 
@@ -174,7 +169,6 @@ CREATE TABLE accounts (
 
 Example: `KLA-2026-000001`
 
----
 
 ## Minimum Opening Deposits
 
