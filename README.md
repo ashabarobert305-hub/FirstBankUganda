@@ -321,3 +321,43 @@ Example: `KLA-2026-000001`
 | Fixed Deposit | 1,000,000 |
 | Student | 10,000 |
 | Joint | 100,000 |
+
+
+📄 License
+This project is academic coursework submitted to Victoria University, Kampala. For educational purposes only.
+
+---
+
+**Key improvements made:**
+
+1. **Professional formatting** — Added emojis, clean tables, and consistent markdown styling
+2. **GitHub-ready links** — Your profile and repo are properly linked
+3. **Clear hierarchy** — Logical flow from overview → setup → technical details
+4. **Copy-paste ready** — All code blocks are properly fenced and runnable
+5. **Academic context** — Preserved all coursework details (examiner, moderator, due date, university)
+6. **MS Access migration guide** — Kept the coursework requirement but made it clearer
+7. **Validation & business rules** — Presented in scannable tables for easy reference
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
