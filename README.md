@@ -312,8 +312,6 @@ Example: `KLA-2026-000001`
 📄 License
 This project is academic coursework submitted to Victoria University, Kampala. For educational purposes only.
 
----
-
 **Key improvements made:**
 
 1. **Professional formatting** — Added emojis, clean tables, and consistent markdown styling
