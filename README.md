@@ -30,7 +30,7 @@ firstbank/
 
 ---
 
-## Prerequisites
+## Prerequisites.
 
 | Tool | Minimum Version |
 |------|----------------|
@@ -40,13 +40,13 @@ firstbank/
 
 ---
 
-## How to Compile and Run
+## How to Compile and Run.
 
 ### Option 1 – Maven (recommended)
 
 ---
 
-## 🛠️ Prerequisites
+## 🛠️ Prerequisites.
 
 | Tool | Minimum Version |
 |------|---------------|
@@ -87,11 +87,11 @@ java -jar target/firstbank-oop-1.0.0.jar
 
 ---
 
-## Database
+## Database.
 
 The application uses **SQLite** (`FirstBankUganda.db`) which is created automatically in the working directory on first launch.
 
-### Schema
+### Schema.
 
 ```sql
 CREATE TABLE accounts (
@@ -129,7 +129,7 @@ CREATE TABLE accounts (
    ```
 4. Create an empty `FirstBankUganda.accdb` file using MS Access first.
 
-## OOP Design Summary
+## OOP Design Summary.
 
 | Element | Implementation |
 |---------|---------------|
@@ -139,7 +139,7 @@ CREATE TABLE accounts (
 | Encapsulation | All fields private; public getters only; setters where needed |
 | Validation | Centralised in `Validator` utility class |
 
-## Validation Rules Summary
+## Validation Rules Summary.
 
 | Field | Rule |
 |-------|------|
