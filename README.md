@@ -287,7 +287,8 @@ CREATE TABLE accounts (
 
 
 
-📄 License
+📄 License.
+
 This project is academic coursework submitted to Victoria University, Kampala. For educational purposes only.
 
 **Key improvements made:**
