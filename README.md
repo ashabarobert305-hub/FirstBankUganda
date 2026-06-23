@@ -1,5 +1,5 @@
 # FirstBankUganda.
-First Bank Uganda – Account Opening System
+First Bank Uganda – Account Opening System.
 
 ## Project Structure.
 
@@ -56,7 +56,7 @@ firstbank/
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started.
 
 ### Option 1 – Maven (Recommended)
 
@@ -76,12 +76,12 @@ mvn package
 java -jar target/firstbank-oop-1.0.0.jar
 ```
 
-### Option 2 – IntelliJ IDEA
+### Option 2 – IntelliJ IDEA.
 1. Open IntelliJ → **File → Open** → select the `firstbank` folder.
 2. IntelliJ detects `pom.xml` and imports the project automatically.
 3. Right-click `BankFormApp.java` → **Run 'BankFormApp.main()'**.
 
-### Option 3 – Eclipse
+### Option 3 – Eclipse.
 1. **File → Import → Maven → Existing Maven Projects** → select `firstbank`.
 2. Right-click `BankFormApp.java` → **Run As → Java Application**.
 
@@ -155,7 +155,7 @@ CREATE TABLE accounts (
 | Second NIN | Required only for Joint account |
 
 
-## Account Number Format
+## Account Number Format.
 
 `BRANCHCODE-YYYY-xxxxxx`
 
@@ -170,7 +170,7 @@ CREATE TABLE accounts (
 Example: `KLA-2026-000001`
 
 
-## Minimum Opening Deposits
+## Minimum Opening Deposits.
 
 | Account Type | Minimum (UGX) |
 |-------------|--------------|
