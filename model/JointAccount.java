@@ -1,4 +1,6 @@
-package firstbank.model;
+package model;
+
+import java.time.LocalDate;
 
 /** Joint account – minimum UGX 100,000, requires a second NIN. */
 public class JointAccount extends Account {
@@ -6,13 +8,19 @@ public class JointAccount extends Account {
 
     public JointAccount(String accNo, String fn, String ln, String nin,
                         String email, String phone, String pin,
-                        String dob, String branch, double deposit, String secondNin) {
+                        LocalDate dob, String branch, double deposit, String secondNin) {
         super(accNo, fn, ln, nin, email, phone, pin, dob, branch, deposit);
         this.secondNin = secondNin;
     }
+
     public String getSecondNin() { return secondNin; }
 
-    @Override public double minimumDeposit() { return 100_000; }
-    @Override public String accountType()    { return "Joint"; }
-    @Override public String specialRule()    { return "Requires a second NIN."; }
+    @Override 
+    public double getMinimumOpeningDeposit() { return 100_000.0; }
+
+    @Override 
+    public String getAccountType() { return "Joint"; }
+
+    @Override 
+    public String specialRule() { return "Requires a second NIN."; }
 }

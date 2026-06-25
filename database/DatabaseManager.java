@@ -1,29 +1,17 @@
-package firstbank.db;
+package database;
 
-import firstbank.model.Account;
-import firstbank.model.JointAccount;
-
-import java.io.File;
+import model.Account;
+import model.JointAccount;
 import java.sql.*;
 
 /**
  * Manages all database operations for First Bank Uganda.
- *
- * NOTE: The coursework requires MS Access (.accdb). Because JavaFX + MS Access
- * requires UCanAccess JDBC driver (which ships as a JAR), the application uses
- * SQLite for portability and includes instructions to swap in UCanAccess.
- * The schema and all SQL statements are identical for both backends.
- *
- * To switch to MS Access:
- *   1. Add UCanAccess JARs to the classpath.
- *   2. Replace DB_URL with: "jdbc:ucanaccess://FirstBankUganda.accdb"
- *   3. Remove the SQLite driver line.
+ * Uses SQLite by default, easily swappable to MS Access via JDBC URL.
  */
 public class DatabaseManager {
 
-    // SQLite (default – portable, no extra driver needed)
-    private static final String DB_FILE = "FirstBankUganda.db";
-    private static final String DB_URL  = "jdbc:sqlite:" + DB_FILE;
+    
+    private static final String DB_URL = "jdbc:ucanaccess://" + System.getProperty("user.dir") + "/FirstBankUganda.accdb";
 
     private static DatabaseManager instance;
     private Connection connection;
@@ -40,7 +28,6 @@ public class DatabaseManager {
         return instance;
     }
 
-    // ── Schema ────────────────────────────────────────────────────────────────
     private void createTables() throws SQLException {
         String sql = """
             CREATE TABLE IF NOT EXISTS accounts (
@@ -64,7 +51,7 @@ public class DatabaseManager {
         }
     }
 
-    // ── Insert ────────────────────────────────────────────────────────────────
+    /** Saves an account record to the database. */
     public void saveAccount(Account account) throws SQLException {
         String sql = """
             INSERT INTO accounts
@@ -79,19 +66,18 @@ public class DatabaseManager {
             ps.setString(4,  account.getNin());
             ps.setString(5,  account.getEmail());
             ps.setString(6,  account.getPhone());
-            ps.setString(7,  account.getDateOfBirth());
-            ps.setString(8,  account.accountType());
+            ps.setString(7,  account.getDateOfBirth().toString()); // Converted to String
+            ps.setString(8,  account.getAccountType());           // Updated method name
             ps.setString(9,  account.getBranch());
             ps.setDouble(10, account.getOpeningDeposit());
-            ps.setString(11, account instanceof JointAccount
-                    ? ((JointAccount) account).getSecondNin() : null);
+            ps.setString(11, account instanceof JointAccount 
+                             ? ((JointAccount) account).getSecondNin() : null);
             ps.executeUpdate();
         }
     }
 
-    /** Returns the next sequential counter for a given branch-year key. */
+    /** Returns the next sequential number for a specific branch and year. */
     public int nextSequence(String branchCode, int year) throws SQLException {
-        String key = branchCode + "-" + year;
         String selectSql = "SELECT MAX(CAST(SUBSTR(account_number, -6) AS INTEGER)) FROM accounts " +
                            "WHERE account_number LIKE ?";
         try (PreparedStatement ps = connection.prepareStatement(selectSql)) {
@@ -101,7 +87,7 @@ public class DatabaseManager {
                 return rs.getInt(1) + 1;
             }
         }
-        return 1;
+        return 1; // Start at 000001 if no records exist
     }
 
     public void close() throws SQLException {

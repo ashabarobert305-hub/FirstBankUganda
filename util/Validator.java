@@ -1,4 +1,4 @@
-package firstbank.util;
+package util;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -102,7 +102,7 @@ public class Validator {
         } catch (NumberFormatException e) {
             return "Opening Deposit must be a numeric value.";
         }
-        double min = firstbank.model.AccountFactory.minimumFor(accountType);
+        double min = model.AccountFactory.minimumFor(accountType);
         if (amount < min)
             return String.format("Minimum deposit for %s is UGX %,.0f. You entered %,.0f.", accountType, min, amount);
         return null;

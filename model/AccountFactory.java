@@ -1,4 +1,6 @@
-package firstbank.model;
+package model;
+
+import java.time.LocalDate;
 
 /**
  * Factory that creates the correct Account subclass based on the selected type.
@@ -9,8 +11,9 @@ public class AccountFactory {
     public static Account create(String type, String accNo,
                                  String fn, String ln, String nin,
                                  String email, String phone, String pin,
-                                 String dob, String branch, double deposit,
+                                 LocalDate dob, String branch, double deposit,
                                  String secondNin) {
+        
         switch (type) {
             case "Savings":       return new SavingsAccount(accNo, fn, ln, nin, email, phone, pin, dob, branch, deposit);
             case "Current":       return new CurrentAccount(accNo, fn, ln, nin, email, phone, pin, dob, branch, deposit);
@@ -21,15 +24,15 @@ public class AccountFactory {
         }
     }
 
-    /** Returns the minimum deposit for a given account type string (for UI preview). */
+    /** Returns the minimum deposit for a given account type string. */
     public static double minimumFor(String type) {
         switch (type) {
-            case "Savings":       return 50_000;
-            case "Current":       return 200_000;
-            case "Fixed Deposit": return 1_000_000;
-            case "Student":       return 10_000;
-            case "Joint":         return 100_000;
-            default:              return 0;
+            case "Savings":       return 50_000.0;
+            case "Current":       return 200_000.0;
+            case "Fixed Deposit": return 1_000_000.0;
+            case "Student":       return 10_000.0;
+            case "Joint":         return 100_000.0;
+            default:              return 0.0;
         }
     }
 }

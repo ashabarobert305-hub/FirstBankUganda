@@ -2,10 +2,12 @@ module firstbank {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    
+    requires ucanaccess; 
 
-    opens firstbank.ui to javafx.fxml;
-    exports firstbank.ui;
-    exports firstbank.model;
-    exports firstbank.db;
-    exports firstbank.util;
+    opens ui to javafx.fxml;
+    exports ui;
+    exports model;
+    exports database;
+    exports util;
 }

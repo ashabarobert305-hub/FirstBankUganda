@@ -1,9 +1,9 @@
-package firstbank.ui;
+package ui;
 
-import firstbank.db.DatabaseManager;
-import firstbank.model.*;
-import firstbank.util.AccountNumberGenerator;
-import firstbank.util.Validator;
+import database.DatabaseManager;
+import model.*;
+import util.AccountNumberGenerator;
+import util.Validator;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -11,7 +11,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -23,10 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * First Bank Uganda – Account Opening Application.
- * JavaFX desktop form with full validation, OOP design, and database persistence.
- */
+// First Bank Uganda – Account Opening Application.
+
 public class BankFormApp extends Application {
 
     // ── Form fields ───────────────────────────────────────────────────────────
@@ -214,7 +211,7 @@ public class BankFormApp extends Application {
         cbAccountType.setOnAction(e -> {
             String type = cbAccountType.getValue();
             if (type != null) {
-                double min = firstbank.model.AccountFactory.minimumFor(type);
+                double min = model.AccountFactory.minimumFor(type);
                 depositHint.setText(String.format("Minimum: UGX %,.0f", min));
                 tfSecondNin.setDisable(!"Joint".equals(type));
                 if (!"Joint".equals(type)) tfSecondNin.clear();
@@ -302,22 +299,22 @@ public class BankFormApp extends Application {
         }
 
         // Build account via polymorphic factory
-        String dob     = String.format("%04d-%02d-%02d", dobYear, dobMonth, dobDay);
-        double amount  = Double.parseDouble(deposit.trim().replace(",", ""));
-        String accNo   = AccountNumberGenerator.generate(branch);
+        LocalDate dobDate = LocalDate.of(dobYear, dobMonth, dobDay);
+        double amount     = Double.parseDouble(deposit.trim().replace(",", ""));
+        String accNo      = AccountNumberGenerator.generate(branch);
 
         Account account = AccountFactory.create(
                 accountType, accNo,
                 firstName.trim(), lastName.trim(),
                 nin.trim(), email.trim().toLowerCase(),
                 phone.trim(), pin.trim(),
-                dob, branch, amount,
+                dobDate, branch, amount,
                 secondNin != null ? secondNin.trim() : "");
 
         // Polymorphic deposit validation (double-check via subclass)
-        if (amount < account.minimumDeposit()) {
+        if (amount < account.getMinimumOpeningDeposit()) {
             showError("deposit", String.format("Minimum deposit for %s is UGX %,.0f",
-                    accountType, account.minimumDeposit()));
+                    accountType, account.getMinimumOpeningDeposit()));
             return;
         }
 
@@ -330,9 +327,9 @@ public class BankFormApp extends Application {
 
         // Display summary
         String summary = account.toString() + "\n\n"
-                + "Account Type  : " + account.accountType() + "\n"
+                + "Account Type  : " + account.getAccountType() + "\n"
                 + "Special Rule  : " + account.specialRule() + "\n"
-                + "Min. Deposit  : UGX " + String.format("%,.0f", account.minimumDeposit()) + "\n"
+                + "Min. Deposit  : UGX " + String.format("%,.0f", account.getMinimumOpeningDeposit()) + "\n"
                 + "Deposit Made  : UGX " + String.format("%,.0f", amount) + "\n"
                 + "Branch        : " + branch + "\n"
                 + "Generated No. : " + accNo;
