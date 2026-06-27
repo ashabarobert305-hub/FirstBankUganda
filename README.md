@@ -78,6 +78,7 @@ java -jar target/firstbank-oop-1.0.0.jar
 
 ## Database.
 
+---
 The application uses **SQLite** (`FirstBankUganda.db`) which is created automatically in the working directory on first launch.
 
 ### Schema.
