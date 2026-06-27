@@ -26,7 +26,7 @@ firstbank/
         └── ui/
             └── BankFormApp.java            ← JavaFX GUI (main class)
 
-
+---
 ## Prerequisites.
 
 | Tool | Minimum Version |
