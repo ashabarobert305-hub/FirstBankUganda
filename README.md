@@ -3,7 +3,6 @@ First Bank Uganda – Account Opening System.
 
 ## Project Structure.
 
-```
 firstbank/
 ├── pom.xml                         ← Maven build file
 ├── README.md
@@ -26,9 +25,7 @@ firstbank/
         │   └── DatabaseManager.java        ← SQLite persistence
         └── ui/
             └── BankFormApp.java            ← JavaFX GUI (main class)
-```
 
----
 
 ## Prerequisites.
 
@@ -38,13 +35,9 @@ firstbank/
 | Apache Maven | 3.8+ |
 | Internet connection | Required first time (to download JavaFX + SQLite JARs) |
 
----
-
 ## How to Compile and Run.
 
 ### Option 1 – Maven (recommended)
-
----
 
 ## 🛠️ Prerequisites.
 
@@ -54,7 +47,6 @@ firstbank/
 | Apache Maven | 3.8+ |
 | Internet Connection | Required on first build (downloads JavaFX & SQLite dependencies) |
 
----
 
 ## 🚀 Getting Started.
 
@@ -74,7 +66,6 @@ mvn javafx:run
 # 4. Or package into a fat JAR and run standalone
 mvn package
 java -jar target/firstbank-oop-1.0.0.jar
-```
 
 ### Option 2 – IntelliJ IDEA.
 1. Open IntelliJ → **File → Open** → select the `firstbank` folder.
@@ -84,8 +75,6 @@ java -jar target/firstbank-oop-1.0.0.jar
 ### Option 3 – Eclipse.
 1. **File → Import → Maven → Existing Maven Projects** → select `firstbank`.
 2. Right-click `BankFormApp.java` → **Run As → Java Application**.
-
----
 
 ## Database.
 
@@ -109,7 +98,6 @@ CREATE TABLE accounts (
     second_nin      TEXT,
     created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-```
 
 ### Switching to MS Access (as required )
 
@@ -293,13 +281,13 @@ This project is academic coursework submitted to Victoria University, Kampala. F
 
 **Key improvements made:**
 
-1. **Professional formatting** — Added emojis, clean tables, and consistent markdown styling
-2. **GitHub-ready links** — Your profile and repo are properly linked
-3. **Clear hierarchy** — Logical flow from overview → setup → technical details
-4. **Copy-paste ready** — All code blocks are properly fenced and runnable
+1. **Professional formatting** — Added emojis, clean tables, and consistent markdown styling.
+2. **GitHub-ready links** — Your profile and repo are properly linked.
+3. **Clear hierarchy** — Logical flow from overview → setup → technical details.
+4. **Copy-paste ready** — All code blocks are properly fenced and runnable.
 5. **Academic context** — Preserved all coursework details (examiner, moderator, due date, university)
-6. **MS Access migration guide** — Kept the coursework requirement but made it clearer
-7. **Validation & business rules** — Presented in scannable tables for easy reference
+6. **MS Access migration guide** — Kept the coursework requirement but made it clearer.
+7. **Validation & business rules** — Presented in scannable tables for easy reference.
 
 
 
