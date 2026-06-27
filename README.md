@@ -1,317 +1,110 @@
-# FirstBankUganda.
-First Bank Uganda – Account Opening System.
+# First Bank Uganda – Account Opening System.
+
+First Bank Uganda is a robust JavaFX desktop application designed for managing bank account registrations. This system implements Object-Oriented Programming (OOP) principles to handle polymorphic account types and persistent data storage using MS Access.
 
 ---
 
 ## Project Structure.
 
+```
 firstbank/
-├── pom.xml                         ← Maven build file
+├── FirstBankUganda1.accdb  # MS Access Database (Required)
+├── db-drivers/            # UCanAccess and dependency JARs
 ├── README.md
-├── FirstBankUganda.db              ← SQLite database (auto-created on first run)
 └── src/
-    ├── module-info.java
     └── firstbank/
-        ├── model/
-        │   ├── Account.java                ← Abstract base class
-        │   ├── SavingsAccount.java
-        │   ├── CurrentAccount.java
-        │   ├── FixedDepositAccount.java
-        │   ├── StudentAccount.java
-        │   ├── JointAccount.java
-        │   └── AccountFactory.java         ← Polymorphic factory
-        ├── util/
-        │   ├── Validator.java              ← All validation rules
-        │   └── AccountNumberGenerator.java ← BRANCHCODE-YYYY-xxxxxx
-        ├── db/
-        │   └── DatabaseManager.java        ← SQLite persistence
-        └── ui/
-            └── BankFormApp.java            ← JavaFX GUI (main class)
+        ├── model/         # Account (Abstract) & Subclasses
+        ├── util/          # Validator & AccountNumberGenerator
+        ├── db/            # DatabaseManager (MS Access Persistence)
+        └── ui/            # BankFormApp (JavaFX GUI)
+```
 
----
-## Prerequisites.
+## Prerequisites and Environment Setup.
 
-| Tool | Minimum Version |
-|------|----------------|
-| Java JDK | 17 or later |
-| Apache Maven | 3.8+ |
-| Internet connection | Required first time (to download JavaFX + SQLite JARs) |
+This project requires  **Java 17 or later** . Please note that standard JDK installations (like those from Oracle or OpenJDK)  **do not include JavaFX** . You have two options to run this project:
 
-## How to Compile and Run.
+#### Option One: Use a "JavaFX-Ready" JDK (Recommended)
 
-### Option 1 – Maven (recommended)
+Download a JDK distribution that includes JavaFX, such as:
 
-## 🛠️ Prerequisites.
+* [Liberica Full JDK](https://bell-sw.com/pages/downloads/) (Choose "Full JDK" which includes JavaFX).
+* [ZuluFX](https://www.azul.com/downloads/) (Explicitly includes the JavaFX modules).
 
-| Tool | Minimum Version |
-|------|---------------|
-| Java JDK | 17 or later |
-| Apache Maven | 3.8+ |
-| Internet Connection | Required on first build (downloads JavaFX & SQLite dependencies) |
+#### Option Two: Standard JDK + Manual JavaFX Libraries
 
+If you use a standard JDK, you must manually download the [JavaFX SDK](https://openjfx.io/) and add it to your project path.
 
-## 🚀 Getting Started.
+## How to Compile and Run (Manual Approach).
 
-### Option 1 – Maven (Recommended)
+Our project avoids the complexity of `module-info.java` for ease of execution, use the following commands from the  **project root folder** :
 
-```bash
-# 1. Clone the repository
+###### Clone the repository:
+
+```Shell
 git clone https://github.com/ashabarobert305-hub/FirstBankUganda.git
 cd FirstBankUganda
+```
 
-# 2. Compile the project
-mvn compile
+###### Compile the Source Code
 
-# 3. Run the application
-mvn javafx:run
+This command compiles all your source files while including your database drivers in the classpath:
 
-# 4. Or package into a fat JAR and run standalone
-mvn package
-java -jar target/firstbank-oop-1.0.0.jar
+```Shell
+javac -cp "db-drivers/*" model/*.java util/*.java database/*.java ui/*.java
+```
 
-### Option 2 – IntelliJ IDEA.
-1. Open IntelliJ → **File → Open** → select the `firstbank` folder.
-2. IntelliJ detects `pom.xml` and imports the project automatically.
-3. Right-click `BankFormApp.java` → **Run 'BankFormApp.main()'**.
+###### Execute the Application
 
-### Option 3 – Eclipse.
-1. **File → Import → Maven → Existing Maven Projects** → select `firstbank`.
-2. Right-click `BankFormApp.java` → **Run As → Java Application**.
+Once compiled, run the main class. Note the use of the classpath separator:
 
-## Database.
+**On Windows:**
 
----
-The application uses **SQLite** (`FirstBankUganda.db`) which is created automatically in the working directory on first launch.
+```Shell
+java -cp ".;dbdrivers/*" ui.BankFormApp
+```
 
-### Schema.
+**On macOS/Linux:**
 
-```sql
-CREATE TABLE accounts (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    account_number  TEXT NOT NULL UNIQUE,
-    first_name      TEXT NOT NULL,
-    last_name       TEXT NOT NULL,
-    nin             TEXT NOT NULL,
-    email           TEXT NOT NULL,
-    phone           TEXT NOT NULL,
-    date_of_birth   TEXT NOT NULL,
-    account_type    TEXT NOT NULL,
-    branch          TEXT NOT NULL,
-    opening_deposit REAL NOT NULL,
-    second_nin      TEXT,
-    created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+```Shell
+java -cp ".:dbdrivers/*" ui.BankFormApp
+```
 
-### Switching to MS Access (as required )
+*Note: Ensure your `db-drivers/` folder contains the UCanAccess JAR and all its dependencies (hsqldb, jackcess, commons-lang3, commons-logging)*.
 
-1. Download UCanAccess from https://ucanaccess.sourceforge.net
-2. Add these JARs to your classpath:
-   - `ucanaccess-5.x.x.jar`
-   - `hsqldb-2.x.x.jar`
-   - `jackcess-4.x.x.jar`
-   - `commons-lang3-3.x.x.jar`
-   - `commons-logging-1.x.x.jar`
-3. In `DatabaseManager.java`, update the connection string:
-   ```java
-   // FROM (SQLite):
-   private static final String DB_URL = "jdbc:sqlite:FirstBankUganda.db";
-   // TO (MS Access):
-   private static final String DB_URL = "jdbc:ucanaccess://FirstBankUganda.accdb";
-   ```
-4. Create an empty `FirstBankUganda.accdb` file using MS Access first.
+## Database Configuration.
+
+The application is configured to use **MS Access** as the primary storage engine.
+
+###### Setup Steps:
+
+* **Database File:** Ensure `FirstBankUganda.accdb` exists in the project root. (If not, create a blank one in MS Access).
+* **Drivers:** Ensure all required UCanAccess JARs (`ucanaccess`, `hsqldb`, `jackcess`, `commons-lang3`, `commons-logging`) are placed in the `db-drivers/` folder.
+* **Connection String:** Your `DatabaseManager.java` is configured as follows:
+
+```Java
+private static final String DB_URL = "jdbc:ucanaccess://" + System.getProperty("user.dir") + "/FirstBankUganda1.accdb";
+```
 
 ## OOP Design Summary.
 
-| Element | Implementation |
-|---------|---------------|
-| Abstract class | `Account` – defines common state and `minimumDeposit()`, `accountType()`, `specialRule()` |
-| Concrete subclasses | `SavingsAccount`, `CurrentAccount`, `FixedDepositAccount`, `StudentAccount`, `JointAccount` |
-| Polymorphism | `AccountFactory.create()` returns the correct subtype; `account.minimumDeposit()` is called on the superclass reference |
-| Encapsulation | All fields private; public getters only; setters where needed |
-| Validation | Centralised in `Validator` utility class |
+| **Element**        | **Implementation**                                |
+| ------------------------ | ------------------------------------------------------- |
+| **Abstract Class** | `Account`(defines state & polymorphic rules)          |
+| **Concrete Types** | `Savings`,`Current`,`Fixed`,`Student`,`Joint` |
+| **Polymorphism**   | `AccountFactory`handles instantiation logic           |
+| **Encapsulation**  | Private fields with strict accessors                    |
+| **Validation**     | Centralized`Validator`utility logic                   |
 
-## Validation Rules Summary.
+## Validation and Business RulesAccount Number Format.
 
-| Field | Rule |
-|-------|------|
-| First / Last Name | Letters only, 2–30 characters |
-| NIN | Exactly 14 uppercase alphanumeric characters |
-| Email | Valid format; must match Confirm Email |
-| Phone | `+256XXXXXXXXX` format (9 digits after prefix) |
-| PIN | 4–6 numeric digits; not all-identical; must match Confirm PIN |
-| Date of Birth | Valid date; derived age 18–75 (18–25 for Student account) |
-| Account Type | Must be selected |
-| Branch | Must be selected |
-| Opening Deposit | Must meet minimum for selected account type |
-| Second NIN | Required only for Joint account |
+* **Account Numbers:** `BRANCHCODE-YYYY-xxxxxx` (e.g., `KLA-2026-000001`)
+* **NIN:** 14 uppercase alphanumeric characters.
 
+* **Phone:** `+256XXXXXXXXX` format.
+* **Age Requirements:** 18–75 years (Student accounts: 18–25).
 
-## Account Number Format.
+* **Minimum Deposits:** Range from UGX 10,000 (Student) to UGX 1,000,000 (Fixed Deposit).
 
-`BRANCHCODE-YYYY-xxxxxx`
+## License.
 
-| Branch | Code |
-|--------|------|
-| Kampala | KLA |
-| Gulu    | GUL |
-| Mbarara | MBR |
-| Jinja   | JNJ |
-| Mbale   | MBL |
-
-Example: `KLA-2026-000001`
-
-
-## Minimum Opening Deposits.
-
-| Account Type | Minimum (UGX) |
-|-------------|--------------|
-| Savings | 50,000 |
-| Current | 200,000 |
-| Fixed Deposit | 1,000,000 |
-| Student | 10,000 |
-| Joint | 100,000 |
-
-## Prerequisites.
-
-| Tool | Minimum Version |
-|------|----------------|
-| Java JDK | 17 or later |
-| Apache Maven | 3.8+ |
-| Internet connection | Required first time (to download JavaFX + SQLite JARs) |
-
-## How to Compile and Run;
-
-### Option 1 – Maven (recommended);
-
-bash;
-# 1. Clone the repository
-git clone https://github.com/ashabarobert305-hub/firstbank-oop.git
-cd firstbank-oop
-
-# 2. Compile
-mvn compile
-
-# 3. Run directly;
-mvn javafx:run
-
-# 4. Or package into a fat JAR, then run
-mvn package
-java -jar target/firstbank-oop-1.0.0.jar
-
-### Option 2 – IntelliJ IDEA;
-1. Open IntelliJ → **File → Open** → select the `firstbank` folder.
-2. IntelliJ detects `pom.xml` and imports the project automatically.
-3. Right-click `BankFormApp.java` → **Run 'BankFormApp.main()'**.
-
-### Option 3 – Eclipse;
-1. **File → Import → Maven → Existing Maven Projects** → select `firstbank`.
-2. Right-click `BankFormApp.java` → **Run As → Java Application**.
-
-
-## Database;
-
-The application uses **SQLite** (`FirstBankUganda.db`) which is created automatically in the working directory on first launch.
-
-### Schema
-
-sql;
-CREATE TABLE accounts (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    account_number  TEXT NOT NULL UNIQUE,
-    first_name      TEXT NOT NULL,
-    last_name       TEXT NOT NULL,
-    nin             TEXT NOT NULL,
-    email           TEXT NOT NULL,
-    phone           TEXT NOT NULL,
-    date_of_birth   TEXT NOT NULL,
-    account_type    TEXT NOT NULL,
-    branch          TEXT NOT NULL,
-    opening_deposit REAL NOT NULL,
-    second_nin      TEXT,
-    created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
-### Switching to MS Access (as required);
-
-1. Download UCanAccess from https://ucanaccess.sourceforge.net
-2. Add these JARs to your classpath:
-   - `ucanaccess-5.x.x.jar`
-   - `hsqldb-2.x.x.jar`
-   - `jackcess-4.x.x.jar`
-   - `commons-lang3-3.x.x.jar`
-   - `commons-logging-1.x.x.jar`
-3. In `DatabaseManager.java`, change:
-   java;
-   // FROM (SQLite):
-   private static final String DB_URL = "jdbc:sqlite:FirstBankUganda.db";
-   // TO (MS Access):
-   private static final String DB_URL = "jdbc:ucanaccess://FirstBankUganda.accdb";
-   ```
-4. Create an empty `FirstBankUganda.accdb` file using MS Access first.
-
-## OOP Design Summary;
-
-| Element | Implementation |
-|---------|---------------|
-| Abstract class | `Account` – defines common state and `minimumDeposit()`, `accountType()`, `specialRule()` |
-| Concrete subclasses | `SavingsAccount`, `CurrentAccount`, `FixedDepositAccount`, `StudentAccount`, `JointAccount` |
-| Polymorphism | `AccountFactory.create()` returns the correct subtype; `account.minimumDeposit()` is called on the superclass reference |
-| Encapsulation | All fields private; public getters only; setters where needed |
-| Validation | Centralised in `Validator` utility class |
-
-
-## Validation Rules Summary.
-
-| Field | Rule |
-|-------|------|
-| First / Last Name | Letters only, 2–30 characters |
-| NIN | Exactly 14 uppercase alphanumeric characters |
-| Email | Valid format; must match Confirm Email |
-| Phone | `+256XXXXXXXXX` format (9 digits after prefix) |
-| PIN | 4–6 numeric digits; not all-identical; must match Confirm PIN |
-| Date of Birth | Valid date; derived age 18–75 (18–25 for Student account) |
-| Account Type | Must be selected |
-| Branch | Must be selected |
-| Opening Deposit | Must meet minimum for selected account type |
-| Second NIN | Required only for Joint account |
-
-
-
-
-📄 License.
-
-This project is academic coursework submitted to Victoria University, Kampala. For educational purposes only.
-
-**Key improvements made:**
-
-1. **Professional formatting** — Added emojis, clean tables, and consistent markdown styling.
-2. **GitHub-ready links** — Your profile and repo are properly linked.
-3. **Clear hierarchy** — Logical flow from overview → setup → technical details.
-4. **Copy-paste ready** — All code blocks are properly fenced and runnable.
-5. **Academic context** — Preserved all coursework details (examiner, moderator, due date, university)
-6. **MS Access migration guide** — Kept the coursework requirement but made it clearer.
-7. **Validation & business rules** — Presented in scannable tables for easy reference.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Academic coursework submitted to  **Victoria University, Kampala** . For educational purposes only.
