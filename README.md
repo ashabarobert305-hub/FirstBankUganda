@@ -1,6 +1,7 @@
 # FirstBankUganda.
 First Bank Uganda – Account Opening System.
 
+---
 ## Project Structure.
 
 firstbank/
