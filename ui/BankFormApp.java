@@ -11,9 +11,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -42,7 +39,6 @@ public class BankFormApp extends Application {
     private static final String BANK_GOLD  = "#C8A951";
     private static final String BG_LIGHT   = "#F4F6FA";
     private static final String ERROR_RED  = "#D32F2F";
-    private static final String SUCCESS    = "#2E7D32";
 
     @Override
     public void start(Stage stage) {
@@ -344,7 +340,8 @@ public class BankFormApp extends Application {
 
     // ── Reset logic ───────────────────────────────────────────────────────────
     private void handleReset() {
-        tfFirstName.clear(); tfLastName.clear(); tfNin.clear();
+        tfFirstName.clear(); tfLastName.clear(); 
+        tfNin.clear();
         tfEmail.clear(); tfConfirmEmail.clear();
         tfPhone.clear(); tfPin.clear(); tfConfirmPin.clear();
         tfDeposit.clear(); tfSecondNin.clear();
@@ -368,22 +365,27 @@ public class BankFormApp extends Application {
     }
 
     private void showInlineErrors(List<String> errors) {
-        // Map error keywords to field names
+        // 1. IMPORTANT: Clear all existing errors first
+        clearErrors(); 
+
         for (String err : errors) {
-            String low = err.toLowerCase();
-            if (low.contains("first name"))    showError("firstName",    err);
-            else if (low.contains("last name")) showError("lastName",    err);
-            else if (low.contains("nin") && !low.contains("second")) showError("nin", err);
-            else if (low.contains("email") && low.contains("confirm")) showError("confirmEmail", err);
-            else if (low.contains("email"))    showError("email",       err);
-            else if (low.contains("phone"))    showError("phone",       err);
-            else if (low.contains("pin") && low.contains("confirm")) showError("confirmPin", err);
-            else if (low.contains("pin"))      showError("pin",         err);
-            else if (low.contains("date") || low.contains("age") || low.contains("dob")) showError("dob", err);
-            else if (low.contains("account type")) showError("accountType", err);
-            else if (low.contains("branch"))   showError("branch",      err);
-            else if (low.contains("deposit"))  showError("deposit",     err);
-            else if (low.contains("second"))   showError("secondNin",   err);
+        String low = err.toLowerCase();
+        
+        // Use more specific matching
+        if (low.contains("first name")) showError("firstName", err);
+        else if (low.contains("last name")) showError("lastName", err);
+        // Ensure "nin" check is very specific and not hit by "second nin"
+        else if (low.contains("national id") || (low.contains("nin") && !low.contains("second"))) showError("nin", err);
+        else if (low.contains("confirm email")) showError("confirmEmail", err);
+        else if (low.contains("email")) showError("email", err);
+        else if (low.contains("phone")) showError("phone", err);
+        else if (low.contains("confirm pin")) showError("confirmPin", err);
+        else if (low.contains("pin")) showError("pin", err);
+        else if (low.contains("dob") || low.contains("date of birth")) showError("dob", err);
+        else if (low.contains("account type")) showError("accountType", err);
+        else if (low.contains("branch")) showError("branch", err);
+        else if (low.contains("opening deposit")) showError("deposit", err); // Changed to "opening deposit"
+        else if (low.contains("second nin")) showError("secondNin", err);
         }
     }
 

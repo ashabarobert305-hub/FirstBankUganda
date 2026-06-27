@@ -11,7 +11,7 @@ import java.sql.*;
 public class DatabaseManager {
 
     
-    private static final String DB_URL = "jdbc:ucanaccess://" + System.getProperty("user.dir") + "/FirstBankUganda.accdb";
+    private static final String DB_URL = "jdbc:ucanaccess://" + System.getProperty("user.dir") + "/FirstBankUganda1.accdb";
 
     private static DatabaseManager instance;
     private Connection connection;
@@ -29,26 +29,33 @@ public class DatabaseManager {
     }
 
     private void createTables() throws SQLException {
-        String sql = """
-            CREATE TABLE IF NOT EXISTS accounts (
-                id              INTEGER PRIMARY KEY AUTOINCREMENT,
-                account_number  TEXT    NOT NULL UNIQUE,
-                first_name      TEXT    NOT NULL,
-                last_name       TEXT    NOT NULL,
-                nin             TEXT    NOT NULL,
-                email           TEXT    NOT NULL,
-                phone           TEXT    NOT NULL,
-                date_of_birth   TEXT    NOT NULL,
-                account_type    TEXT    NOT NULL,
-                branch          TEXT    NOT NULL,
-                opening_deposit REAL    NOT NULL,
-                second_nin      TEXT,
-                created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-            """;
-        try (Statement st = connection.createStatement()) {
-            st.execute(sql);
-        }
+        DatabaseMetaData dbm = connection.getMetaData();
+        // Check if "accounts" table already exists
+        ResultSet tables = dbm.getTables(null, null, "accounts", null);
+        
+        if (!tables.next()) {
+            // Table does not exist, so create it without "IF NOT EXISTS"
+            String sql = """
+                CREATE TABLE accounts (
+                    id              COUNTER PRIMARY KEY,
+                    account_number  TEXT(50) NOT NULL UNIQUE,
+                    first_name      TEXT(50) NOT NULL,
+                    last_name       TEXT(50) NOT NULL,
+                    nin             TEXT(50) NOT NULL,
+                    email           TEXT(100) NOT NULL,
+                    phone           TEXT(20) NOT NULL,
+                    date_of_birth   TEXT(20) NOT NULL,
+                    account_type    TEXT(50) NOT NULL,
+                    branch          TEXT(50) NOT NULL,
+                    opening_deposit DOUBLE   NOT NULL,
+                    second_nin      TEXT(50),
+                    created_at      DATETIME DEFAULT NOW()
+                )
+                """;
+                try (Statement st = connection.createStatement()) {
+                    st.execute(sql);
+                }
+            }
     }
 
     /** Saves an account record to the database. */
