@@ -78,7 +78,7 @@ The application is configured to use **MS Access** as the primary storage engine
 ###### Setup Steps:
 
 * **Database File:** Ensure `FirstBankUganda.accdb` exists in the project root. (If not, create a blank one in MS Access).
-* **Drivers:** Ensure all required UCanAccess JARs (`ucanaccess`, `hsqldb`, `jackcess`, `commons-lang3`, `commons-logging`) are placed in the `db-drivers/` folder.
+* **Drivers:** Ensure all required UCanAccess JARs (`ucanaccess`, `hsqldb`, `jackcess`, `commons-lang3`, `commons-logging`) are placed in the `dbdrivers/` folder.
 * **Connection String:** Your `DatabaseManager.java` is configured as follows:
 
 ```Java
@@ -99,10 +99,8 @@ private static final String DB_URL = "jdbc:ucanaccess://" + System.getProperty("
 
 * **Account Numbers:** `BRANCHCODE-YYYY-xxxxxx` (e.g., `KLA-2026-000001`)
 * **NIN:** 14 uppercase alphanumeric characters.
-
 * **Phone:** `+256XXXXXXXXX` format.
 * **Age Requirements:** 18–75 years (Student accounts: 18–25).
-
 * **Minimum Deposits:** Range from UGX 10,000 (Student) to UGX 1,000,000 (Fixed Deposit).
 
 ## License.
